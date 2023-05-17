@@ -18,4 +18,5 @@ $display("[GEN]: Data send to driver");
 #10;
 end
 endtask
+ 
 endclass
