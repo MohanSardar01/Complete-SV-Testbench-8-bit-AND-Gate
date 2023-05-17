@@ -1,3 +1,39 @@
 class environment;
+  generator gen;
+  driver drv;
+  moniter mon;
+  scoreboard sco;
   
+  mailbox gdmbx;
+  mailbox msmbx;
+  
+  virtual andt_intf vif;
+  
+  event gddone;
+  
+  function new(mailbox gdmbx, mailbox msmbx);
+    this.gdmbx = gdmbx;
+    this.msmbx = msmbx;
+    
+    gen = new(gdmbx);
+    drv = new(gdmbx);
+    mon = new(msmbx);
+    sco = new(msmbx);
+  endfunction
+  
+  task run();
+    gen.done = gddone;
+    drv.done = gddone;
+    drv.vif = vif;
+    mon.vif = vif; 
+    
+    fork
+      gen.run();
+      drv.run();
+      mon.run();
+      sco.run();
+    join_any
+    
+  endtask
+
 endclass
